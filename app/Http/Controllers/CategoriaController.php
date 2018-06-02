@@ -5,6 +5,12 @@ namespace App\Http\Controllers;
 use App\Categoria;
 use Illuminate\Http\Request;
 
+use App\Http\Requests\CategoriaStoreRequest;
+use App\Http\Requests\CategoriaUpdateRequest;
+
+use RealRashid\SweetAlert\Facades\Alert;
+use Redirect;
+
 class CategoriaController extends Controller
 {
     /**
@@ -14,8 +20,9 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $categorias = Categoria::orderBy('id', 'DESC')->get();
+        return view('admin.categorias.index', compact('categorias'));
+    }   
 
     /**
      * Show the form for creating a new resource.
@@ -24,7 +31,7 @@ class CategoriaController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.categorias.create');
     }
 
     /**
@@ -33,9 +40,12 @@ class CategoriaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CategoriaStoreRequest $request)
     {
-        //
+        $categoria = Categoria::create($request->all());
+
+        Alert::toast('La categoria se ha creado!','success','top-right')->autoclose(8000);
+        return Redirect::route('categorias.index');
     }
 
     /**
@@ -46,7 +56,7 @@ class CategoriaController extends Controller
      */
     public function show(Categoria $categoria)
     {
-        //
+        return view('admin.categorias.show', compact('categoria'));
     }
 
     /**
@@ -57,7 +67,7 @@ class CategoriaController extends Controller
      */
     public function edit(Categoria $categoria)
     {
-        //
+        return view('admin.categorias.edit', compact('categoria'));
     }
 
     /**
@@ -67,9 +77,11 @@ class CategoriaController extends Controller
      * @param  \App\Categoria  $categoria
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Categoria $categoria)
+    public function update(CategoriaUpdateRequest $request, Categoria $categoria)
     {
-        //
+        $categoria->update($request->all());
+        Alert::toast('La categoria se ha actualizado!','success','top-right')->autoclose(8000);
+        return Redirect::route('categorias.index');
     }
 
     /**
@@ -80,6 +92,9 @@ class CategoriaController extends Controller
      */
     public function destroy(Categoria $categoria)
     {
-        //
+        $categoria->delete();
+
+        Alert::toast('La categoria se ha eliminado!', 'warning', 'top-right')->autoclose(10000);
+        return Redirect::route('categorias.index');
     }
 }

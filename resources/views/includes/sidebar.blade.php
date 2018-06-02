@@ -4,7 +4,7 @@
   <a href="index3.html" class="brand-link">
     <img src="{{ asset('/imagenes/logoshido.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
           style="opacity: .8">
-    <span class="brand-text font-weight-light">AdminLTE 3</span>
+    <span class="brand-text font-weight-light text-success"> SisVentas </span>
   </a>
 
 <!-- Sidebar -->
@@ -15,7 +15,7 @@
     <div class="info">
       <a href="#" class="d-block">
         @guest
-        <span>  </span>
+        <span class="text-success"> Invitado </span>
         @else
         <div class="image">
           <img src="{{ asset('/imagenes/avatar.png') }}" class="elevation-2" alt="User Image">
@@ -29,6 +29,7 @@
   <!-- Sidebar Menu -->
   <nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+      {{--
       <!-- Add icons to the links using the .nav-icon class
             with font-awesome or any other icon font library -->
       <li class="nav-item has-treeview menu-open">
@@ -48,27 +49,33 @@
           </li>
         </ul>
       </li>
-    
+      --}}
   
       <li class="nav-item has-treeview">
         <a href="#" class="nav-link">
-            <i class="nav-icon far fa-circle text-primary"></i>
+            <i class="nav-icon fas fa-cogs text-success"></i>
           <p>
-            Roles
+            Mantenimiento
             <i class="fa fa-angle-left right"></i>
           </p>
         </a>
         <ul class="nav nav-treeview">
           <li class="nav-item">
-            <a href="" class="nav-link">
-              <i class="fa fa-circle-o nav-icon"></i>
-              <p>Ver Listado de Roles</p>
+            <a href="{{ route('categorias.index') }}" class="nav-link">
+              <i class="far fa-circle text-success"></i>
+              <p>Categorias</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ route('clientes.index') }}" class="nav-link">
+              <i class="far fa-circle text-success"></i>
+              <p>Clientes</p>
             </a>
           </li>
           <li class="nav-item">
             <a href="" class="nav-link">
-              <i class="fa fa-circle-o nav-icon"></i>
-              <p>Crear Roles</p>
+              <i class="far fa-circle text-success"></i>
+              <p>Productos</p>
             </a>
           </li>
         </ul>

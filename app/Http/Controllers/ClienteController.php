@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use App\Cliente;
 use Illuminate\Http\Request;
 
+use App\Http\Requests\ClienteStoreRequest;
+use App\Http\Requests\ClienteUpdateRequest;
+use RealRashid\SweetAlert\Facades\Alert;
+use Redirect;
+
 class ClienteController extends Controller
 {
     /**
@@ -14,7 +19,8 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        //
+        $clientes = Cliente::orderBy('id', 'DESC')->get();
+        return view('admin.clientes.index', compact('clientes'));
     }
 
     /**
@@ -24,7 +30,7 @@ class ClienteController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.clientes.create');
     }
 
     /**
@@ -33,9 +39,12 @@ class ClienteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ClienteStoreRequest $request)
     {
-        //
+        $clientes = Cliente::create($request->all());
+
+        Alert::toast("El cliente se ha creado correctamente!",'success','top-right')->autoclose(8000);
+        return Redirect::route('clientes.index');
     }
 
     /**
@@ -46,7 +55,7 @@ class ClienteController extends Controller
      */
     public function show(Cliente $cliente)
     {
-        //
+        return view('admin.clientes.show', compact('cliente'));
     }
 
     /**
@@ -57,7 +66,7 @@ class ClienteController extends Controller
      */
     public function edit(Cliente $cliente)
     {
-        //
+        return view('admin.clientes.edit', compact('cliente'));
     }
 
     /**
@@ -67,9 +76,12 @@ class ClienteController extends Controller
      * @param  \App\Cliente  $cliente
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Cliente $cliente)
+    public function update(ClienteUpdateRequest $request, Cliente $cliente)
     {
-        //
+        $cliente->update($request->all());
+
+        Alert::toast("El cliente {$cliente->name} se ha actualizado correctamente!",'success','top-right')->autoclose(8000);
+        return Redirect::route('clientes.index');
     }
 
     /**
@@ -80,6 +92,9 @@ class ClienteController extends Controller
      */
     public function destroy(Cliente $cliente)
     {
-        //
+        $cliente->delete();
+
+        Alert::toast("El cliente {$cliente->name} se ha eliminado correctamente!",'success','top-right')->autoclose(10000);
+        return Redirect::route('clientes.index');
     }
 }
